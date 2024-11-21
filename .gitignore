@@ -1,0 +1,5 @@
+archive
+data/processed_data/stuff.jld2
+**/.DS_Store
+.vscode
+gr-temp
