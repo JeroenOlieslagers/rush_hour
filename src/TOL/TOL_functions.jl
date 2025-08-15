@@ -4,11 +4,11 @@ function load_tol_data()
     rts = Vector{Vector{Int}}[]
     problems = []
     nn = 0
-    for file in readdir("../games/data/tower_of_london/subject_data")
+    for file in readdir("data/tower_of_london/subject_data")
         if file == ".DS_Store" || file == "5fc2c0cfdb80f9025c6b4810_d2.csv" || file == "5eaf76ae6665cc671414ab73_d2.csv"
             continue
         end
-        subj_data = CSV.read("../games/data/tower_of_london/subject_data/$file", DataFrame)
+        subj_data = CSV.read("data/tower_of_london/subject_data/$file", DataFrame)
         if typeof(subj_data.tol_problem_id[1]) != String15
             continue
         end
@@ -259,7 +259,7 @@ end
 
 
 
-# problems = load("../games/data/tower_of_london/problems.jld2")["problems"];
+# problems = load("data/tower_of_london/problems.jld2")["problems"];
 # _, data, rts = load_tol_data();
 
 
