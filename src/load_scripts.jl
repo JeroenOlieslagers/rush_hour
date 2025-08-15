@@ -136,3 +136,16 @@ function get_subjs_prbs(df)
     subjs = unique(df.subject)
     return subjs, prbs
 end
+
+# df_rh[!, :tree] = stuff["trees"]
+# df_rh[!, :dict] = stuff["dicts"]
+# df_rh[!, :all_moves] = stuff["all_moves"]
+# df_rh[!, :neighs] = stuff["neighs"]
+# df_rh[!, :features] = stuff["features"]
+
+df_models_rh = CSV.read("data/processed_data/df_models.csv", DataFrame)
+params_rh = load("data/processed_data/params.jld2")["params"]
+df_models_rh[!, :params] = params_rh
+
+df_stats_rh = CSV.read("data/processed_data/df_stats.csv", DataFrame)
+binned_stats_rh = CSV.read("data/processed_data/binned_stats.csv", DataFrame)

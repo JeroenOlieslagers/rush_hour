@@ -14,13 +14,13 @@ function fig2C(df, prbs)
 end
 
 function fig2D(df, prbs)
-    plot(size=(350, 450), layout=grid(2, 2), grid=false, dpi=300, xflip=false,
+    plot(size=(350, 550), layout=grid(2, 2), grid=false, dpi=300, xflip=false,
         legendfont=font(12, "helvetica"), 
         xtickfont=font(12, "helvetica"), 
         ytickfont=font(12, "helvetica"), 
         titlefont=font(12, "helvetica"), 
         guidefont=font(12, "helvetica"), 
-        right_margin=3Plots.mm, top_margin=0Plots.mm, bottom_margin=3Plots.mm, left_margin=0Plots.mm, 
+        right_margin=3Plots.mm, top_margin=10Plots.mm, bottom_margin=3Plots.mm, left_margin=0Plots.mm, 
         fontfamily="helvetica", tick_direction=:out, link=:y)
 
     xticks = [[0, 5, 10, 15, 20], [0, 10, 20, 30], [0, 20, 40, 60, 80], [0, 50, 100, 150]]
@@ -44,7 +44,7 @@ function fig4(binned_stats)
     IDV = "X_d_goal"
     d = length(DVs)
     l = @layout [grid(1, d); a{0.001h}];
-    plot(size=(744, 250), grid=false, layout=l, dpi=300, xflip=true,
+    plot(size=(600, 250), grid=false, layout=l, dpi=300, xflip=true,
         legendfont=font(14, "helvetica"), 
         xtickfont=font(12, "helvetica"), 
         ytickfont=font(12, "helvetica"), 
@@ -73,7 +73,7 @@ function fig4(binned_stats)
 end
 
 function fig5(df_stats)
-    plot(layout=grid(1, 3), grid=false, legend=nothing, size=(744, 250), dpi=300,
+    plot(layout=grid(1, 3), grid=false, legend=nothing, size=(600, 250), dpi=300,
             legendfont=font(14, "helvetica"), 
             xtickfont=font(12, "helvetica"), 
             ytickfont=font(12, "helvetica"), 
@@ -115,7 +115,7 @@ function fig6AD(binned_stats)
     MM = length(models)
     d = length(DVs)
     l = @layout [grid(1, d); a{0.001h}];
-    plot(size=(744, 200), grid=false, layout=l, dpi=300, xflip=true,
+    plot(size=(744, 220), grid=false, layout=l, dpi=300, xflip=true,
         legendfont=font(14, "helvetica"), 
         xtickfont=font(12, "helvetica"), 
         ytickfont=font(12, "helvetica"), 
@@ -479,7 +479,7 @@ function fig_ext8(binned_stats)
     IDV = "m_X_d_goal"
     MM = length(models)
     d = length(DVs)
-    l = @layout [a{0.001h}; grid(1, MM); a{0.001h}];
+    l = @layout [grid(1, MM); a{0.001h}; a{0.001h}];
     plot(size=(744, 300), grid=false, layout=l, dpi=300, xflip=true, link=:both,
         legendfont=font(12, "helvetica"), 
         xtickfont=font(10, "helvetica"), 
@@ -490,17 +490,18 @@ function fig_ext8(binned_stats)
         fontfamily="helvetica", tick_direction=:out, xlim=(0, 15), ylim=(0, 1), yticks=nothing)
 
     labels = ["Worse" "Same" "Better"]
-    bar!([0 0 0], c=[palette(:default)[1] palette(:default)[2] palette(:default)[3]], labels=labels, legend_columns=length(labels), linewidth=0, sp=1, showaxis=false, grid=false, background_color_legend=nothing, foreground_color_legend=nothing, legend=:top, top_margin=-2Plots.mm);
     titles = ["Data" "Random" "Optimal" "Hill\nclimbing" "Forward" "Eureka" "Optimal-\nrandom" "AND-OR\n(g=0)" "AND-OR"];
     xlabels = ["" "" "" "" "" "" "" "" ""]
     ylabels = ["Proportion" "" "" "" "" "" "" "" ""]
     yticks = [([0, 0.2, 0.4, 0.6, 0.8, 1], ["0", "0.2", "0.4", "0.6", "0.8", "1"]), [([0, 0.2, 0.4, 0.6, 0.8, 1], ["", "", ""]) for _ in 1:8]...]
     xticks = [[0, 5, 10, 15] for _ in 1:9]
+    colors = [palette(:default)[2] palette(:default)[6] palette(:default)[16]]
     for i in 1:MM
         df_ = binned_stats[binned_stats.model .== models[i], :]
-        areaplot!(df_[:, IDV] .- 1, [df_[:, DVs[1]] + df_[:, DVs[2]] + df_[:, DVs[3]], df_[:, DVs[2]] + df_[:, DVs[3]], df_[:, DVs[3]]], sp=i+1, xflip=true, label=nothing, xlabel=xlabels[i], ylabel=ylabels[i], title=titles[i], yticks=yticks[i], xticks=xticks[i])    
+        areaplot!(df_[:, IDV] .- 1, [df_[:, DVs[1]] + df_[:, DVs[2]] + df_[:, DVs[3]], df_[:, DVs[2]] + df_[:, DVs[3]], df_[:, DVs[3]]], c=colors, sp=i, xflip=true, label=nothing, xlabel=xlabels[i], ylabel=ylabels[i], title=titles[i], yticks=yticks[i], xticks=xticks[i])    
     end
-    plot!(xlabel="Distance to goal", showaxis=false, grid=false, sp=MM+2, top_margin=-14Plots.mm)
+    plot!(xlabel="Distance to goal", showaxis=false, grid=false, sp=MM+1, top_margin=-12Plots.mm)
+    bar!([0 0 0], c=colors, labels=labels, legend_columns=length(labels), linewidth=0, sp=MM+2, showaxis=false, grid=false, background_color_legend=nothing, foreground_color_legend=nothing, legend=:top, top_margin=-4Plots.mm);
     display(plot!())
 end
 

@@ -151,7 +151,6 @@ function subj_nll_mc(params, neighs_dict::Dict, moves_dict::Dict, all_moves_dict
                 end
             end
         end
-        break
     end
     if return_all
         return nll

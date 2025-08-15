@@ -8,6 +8,26 @@ include("load_scripts.jl")
 df, messy_data, d_goals_prbs, df_models, df_stats, binned_stats = load_processed_data();
 subjs, prbs = get_subjs_prbs(df);
 
+df_data = binned_stats[binned_stats.model .== "data", :]
+sort!(df_data, :bin_number)
+x = df_data[:, :m_X_d_goal]
+y = df_data[:, :m_y_red_back]
+ys = df_data[:, :sem_y_red_back]
+plot(x, y, yerr=ys, label="data", legend=:topleft, xlabel="Distance to goal", ylabel="Mean y position of red car", title="Binned data")
+
+models = ["gamma_only_model"]
+for model in models
+    df_model = binned_stats[binned_stats.model .== model, :]
+    sort!(df_model, :bin_number)
+
+    x = df_data[:, :m_X_d_goal]
+    y = df_model[:, :m_y_red_back]
+    ys = df_model[:, :sem_y_red_back]
+    plot!(x, y, ribbon=ys, label=model, legend=:topleft)
+end
+plot!()
+
+
 fig2A(prbs)
 fig2C(df, prbs)
 fig2D(df, prbs)
